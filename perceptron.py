@@ -6,5 +6,8 @@ class Perceptron:
         self.weights = weights
         self.activationTreshold = activationTreshold
 
-    def sigmoidelFunction(x, alfa = 1):
-        1.0 / (1.0 + math.pow(math.e,-x*alfa))
+    def sigmoidelfun(self,x, alfa = 1):
+        return 1.0 / (1.0 + math.pow(math.e,-x*alfa))
+
+    def unit_step(self,x):
+        return 1 if x < self.activationTreshold else 0

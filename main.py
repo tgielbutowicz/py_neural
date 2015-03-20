@@ -19,28 +19,40 @@ import perceptron
 
 activationTreshold = 0.9
 errors = []
-eta = 0.01
-n = 2000
+eta = 0.04
+n = 5000
 
 f = open("input.txt", "r")
-bikes = []
+training_data = []
 expected = []
 
 for line in f.readlines():
-    line_splitted = line.split()
-    bikes.append(line_splitted[1:])
+    line_split = line.split()
+    training_data.append(line_split[1:])
 per = perceptron.Perceptron([random.random() for _ in range(0, 10)],activationTreshold)
 
 for i in range(n):
-    bikec = random.choice(bikes)
-    expected = int(bikec[0])
-    bike = numpy.array(bikec[1:],dtype=float)
-    result = numpy.dot(per.weights, bike)
+    row_of_data = random.choice(training_data)
+    expected = int(row_of_data[0])
+    properties = numpy.array(row_of_data[1:],dtype=float)
+    result = numpy.dot(per.weights, properties)
     error = expected - per.sigmoidelfun(result)
     errors.append(error)
-    per.weights += eta * error * bike
+    per.weights += eta * error * properties
 
-for x in bikes:
-    bike = numpy.array(x[1:],dtype=float)
-    result = numpy.dot(bike, per.weights)
-    print("{}: {} -> {}".format(x[:2], result, per.unit_step(result)))
+for x in training_data:
+    properties = numpy.array(x[1:],dtype=float)
+    result = per.sigmoidelfun(numpy.dot(properties, per.weights))
+    print("{}: {} -> {}".format(x, result, per.unit_step(result)))
+    #print(errors)
+
+#from pylab import plot, ylim
+import matplotlib.pylab
+matplotlib.pylab
+matplotlib.pylab.ylim([-1,1])
+matplotlib.pylab.plot(errors)
+matplotlib.pylab.show()
+
+
+
+
